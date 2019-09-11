@@ -2,13 +2,22 @@
 sudo: required
 services:
   - docker
+
 before_install:
-  - docker build -t amalesa/multi-docker-client-test -f ./client/Dockerfile.dev ./client
+  - docker build -t amalesa/react-test -f ./client/Dockerfile.dev ./client
+
 script:
-  - docker run amalesa/multi-docker-client-test npm test -- --coverage
+  - docker run amalesa/react-test npm test -- --coverage
+
 after_success:
   - docker build -t amalesa/multi-client ./client
   - docker build -t amalesa/multi-nginx ./nginx
   - docker build -t amalesa/multi-server ./server
   - docker build -t amalesa/multi-worker ./worker
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push amalesa/multi-client
+  - docker push amalesa/multi-nginx
+  - docker push amalesa/multi-server
+  - docker push amalesa/multi-worker
