@@ -1,9 +1,13 @@
+  
 sudo: required
 services:
   - docker
-
 before_install:
-  - docker build -t amalesa/multi-docker-test -f ./client/Dockerfile.dev ./client
-
-  script:
-  - docker run -e CI=true amalesa/multi-docker-test npm run test -- --coverage
+  - docker build -t amalesa/multi-docker-test -f Dockerfile.dev ./client/Dockerfile.dev ./client
+script:
+  - docker run -e CI=true amalesa/multi-docker-test npm run test -- --
+after_success:
+  - docker build -t amalesa/multi-client ./client
+  - docker build -t amalesa/multi-nginx ./nginx
+  - docker build -t amalesa/multi-server ./server
+  - docker build -t amalesa/multi-worker ./worker
