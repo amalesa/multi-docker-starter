@@ -6,10 +6,8 @@ before_install:
 script:
   - docker run -e CI=true amalesa/multi-docker-test npm run test -- --
 after_success:
-  - docker build -t amalesa/multi-client ./client
-  - docker build -t amalesa/multi-nginx ./nginx
-  - docker build -t amalesa/multi-server ./server
-  - docker build -t amalesa/multi-worker ./worker
+  - docker build -t amalesa/multi-client ./client
+
 
 
 
