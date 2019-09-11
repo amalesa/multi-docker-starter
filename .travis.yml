@@ -12,9 +12,10 @@ after_success:
   - docker build -t amalesa/multi-server ./server
   - docker build -t amalesa/multi-worker ./worker
 
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
-- docker push amalesa/multi-client
-- docker push amalesa/multi-nginx
-- docker push amalesa/multi-server
-- docker push amalesa/multi-worker
+  - docker push amalesa/multi-client
+  - docker push amalesa/multi-nginx
+  - docker push amalesa/multi-server
+  - docker push amalesa/multi-worker
+
